@@ -1,3 +1,4 @@
 com/catan/app/customer/Customer.class
+com/catan/app/hello/HelloWorldController.class
 com/catan/app/AppApplication.class
 com/catan/app/customer/CustomerController.class
