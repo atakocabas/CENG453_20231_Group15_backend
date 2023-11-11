@@ -11,7 +11,6 @@ import java.util.Date;
 @Entity
 @Table
 public class Leaderboard {
-    // TODO: Sequence Generator to create tables.
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "LEADERBOARD_ID")

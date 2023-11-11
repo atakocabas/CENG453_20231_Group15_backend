@@ -8,7 +8,6 @@ import lombok.*;
 @Entity
 @Table
 public class User {
-    // TODO: Sequence Generator for creating tables.
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "USER_ID")
