@@ -10,10 +10,13 @@ import lombok.*;
 public class User {
     // TODO: Sequence Generator for creating tables.
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "USER_ID")
     private Long id;
-    @Column(name = "USERNAME")
+    @Column(name = "USERNAME", unique = true)
     private String username;
     @Column(name = "PASSWORD")
     private String password;
+    @Column(name = "EMAIL")
+    private String email;
 }
