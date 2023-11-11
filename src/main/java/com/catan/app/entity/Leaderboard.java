@@ -13,9 +13,10 @@ import java.util.Date;
 public class Leaderboard {
     // TODO: Sequence Generator to create tables.
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "LEADERBOARD_ID")
     private Long id;
-    @ManyToOne
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
     private User userId;
     @Column(name = "DATE")
