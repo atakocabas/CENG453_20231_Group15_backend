@@ -18,8 +18,9 @@ public class LeaderboardService {
     private final LeaderboardRepository leaderboardRepository;
     private final UserService userService;
 
-    public void addLeaderboardEntry(User user, Long score, Date date) {
+    public void addLeaderboardEntry(String username, Long score, Date date) {
         Leaderboard leaderboard = new Leaderboard();
+        User user = userService.findUserByUsername(username);
         leaderboard.setUser(user);
         leaderboard.setScore(score);
         leaderboard.setDate(date);

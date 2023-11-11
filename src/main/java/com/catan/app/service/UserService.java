@@ -14,7 +14,7 @@ public class UserService {
     private final MailService mailService;
 
     public Boolean register(String username, String password, String email) {
-        if(Boolean.TRUE.equals(findUserByUsername(username))) {
+        if(userRepository.findUserByUsername(username) != null) {
             throw new IllegalStateException("Username already taken!");
         }
         User user = new User();
@@ -43,9 +43,8 @@ public class UserService {
         }
     }
 
-    public Boolean findUserByUsername(String username) {
-        User user = userRepository.findUserByUsername(username);
-        return user != null;
+    public User findUserByUsername(String username) {
+        return userRepository.findUserByUsername(username);
     }
 
     public Boolean resetPassword(String username) {

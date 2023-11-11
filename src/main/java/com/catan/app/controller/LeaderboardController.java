@@ -1,7 +1,6 @@
 package com.catan.app.controller;
 
 import com.catan.app.entity.LeaderboardEntry;
-import com.catan.app.entity.User;
 import com.catan.app.service.LeaderboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,8 +21,8 @@ public class LeaderboardController {
 
     @PostMapping("/add")
     @ResponseStatus(value = HttpStatus.CREATED)
-        public void addLeaderboardEntry(@RequestBody User user, @RequestBody Long score, @RequestBody Date date) {
-        leaderboardService.addLeaderboardEntry(user, score, date);
+        public void addLeaderboardEntry(@RequestParam("username") String username, @RequestParam("score") Long score, @RequestParam("date") Date date) {
+        leaderboardService.addLeaderboardEntry(username, score, date);
     }
 
     @GetMapping("/weekly")
