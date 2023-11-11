@@ -29,4 +29,10 @@ public class UserController {
         userService.register(username, password, email);
     }
 
+    @PutMapping("/resetPassword")
+    @ResponseStatus(value = HttpStatus.OK)
+    public ResponseEntity<Boolean> resetPassword(@RequestParam("username") String username){
+        return ResponseEntity.ok(userService.resetPassword(username));
+    }
+
 }

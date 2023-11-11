@@ -12,4 +12,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE u.username = ?1")
     User findUserByUsername(String username);
+
+    @Query("UPDATE User u SET u.password = ?2 WHERE u.username = ?1")
+    void updatePassword(String username, String newPassword);
 }

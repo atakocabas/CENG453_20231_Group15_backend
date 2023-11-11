@@ -2,6 +2,7 @@ package com.catan.app.service;
 
 import com.catan.app.entity.User;
 import com.catan.app.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final MailService mailService;
 
     @Autowired
     UserService(UserRepository userRepository) {
@@ -44,4 +46,17 @@ public class UserService {
         User user = userRepository.findUserByUsername(username);
         return user != null;
     }
+
+    public Boolean resetPassword(String username) {
+        User user = userRepository.findUserByUsername(username);
+        if(user == null) {
+            throw new IllegalStateException("User does not exist!");
+        }
+        // TODO: create new password
+        String newPassword = "";
+        userRepository.updatePassword(username, newPassword);
+        mailService.sendMail(user, newPassword);
+        return true;
+    }
+
 }
