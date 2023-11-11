@@ -27,48 +27,30 @@ public class LeaderboardService {
     }
 
     public List<LeaderboardEntry> findWeeklyScores() {
-        List<LeaderboardEntry> weeklyScoresList = new ArrayList<>();
         Map<Long, Long> weeklyScores = leaderboardRepository.findWeeklyScores();
-
-        for(Map.Entry<Long, Long> entry : weeklyScores.entrySet()) {
-            User user = userService.findUserById(entry.getKey());
-            LeaderboardEntry leaderboardEntry = new LeaderboardEntry();
-            leaderboardEntry.setUsername(user.getUsername());
-            leaderboardEntry.setScore(entry.getValue());
-            weeklyScoresList.add(leaderboardEntry);
-        }
-
-        return weeklyScoresList;
+        return generateLeaderboardEntries(weeklyScores);
     }
 
     public List<LeaderboardEntry> findMonthlyScores() {
-        List<LeaderboardEntry> monthlyScoresList = new ArrayList<>();
         Map<Long, Long> monthlyScores = leaderboardRepository.findMonthlyScores();
-
-        for(Map.Entry<Long, Long> entry : monthlyScores.entrySet()) {
-            User user = userService.findUserById(entry.getKey());
-            LeaderboardEntry leaderboardEntry = new LeaderboardEntry();
-            leaderboardEntry.setUsername(user.getUsername());
-            leaderboardEntry.setScore(entry.getValue());
-            monthlyScoresList.add(leaderboardEntry);
-        }
-
-        return monthlyScoresList;
+        return generateLeaderboardEntries(monthlyScores);
     }
 
     public List<LeaderboardEntry> findAlltimeScores() {
-        List<LeaderboardEntry> alltimeScoresList = new ArrayList<>();
         Map<Long, Long> alltimeScores = leaderboardRepository.findAllTimeScores();
+        return generateLeaderboardEntries(alltimeScores);
+    }
 
-        for(Map.Entry<Long, Long> entry : alltimeScores.entrySet()) {
+    private List<LeaderboardEntry> generateLeaderboardEntries(Map<Long, Long> scores){
+        List<LeaderboardEntry> leaderboardEntries = new ArrayList<>();
+        for(Map.Entry<Long, Long> entry : scores.entrySet()) {
             User user = userService.findUserById(entry.getKey());
             LeaderboardEntry leaderboardEntry = new LeaderboardEntry();
             leaderboardEntry.setUsername(user.getUsername());
             leaderboardEntry.setScore(entry.getValue());
-            alltimeScoresList.add(leaderboardEntry);
+            leaderboardEntries.add(leaderboardEntry);
         }
-
-        return alltimeScoresList;
+        return leaderboardEntries;
     }
 
 }
