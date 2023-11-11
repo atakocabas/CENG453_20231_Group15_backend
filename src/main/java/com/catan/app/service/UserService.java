@@ -3,7 +3,6 @@ package com.catan.app.service;
 import com.catan.app.entity.User;
 import com.catan.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -29,6 +28,10 @@ public class UserService {
 
     public User findUserByUsernameAndPassword(String username, String password) {
         return userRepository.findUserByUsernameAndPassword(username, password);
+    }
+
+    public User findUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
     }
 
     public ResponseEntity<HttpStatus> login(String username, String password) {
