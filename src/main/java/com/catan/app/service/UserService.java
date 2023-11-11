@@ -9,15 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final MailService mailService;
 
-    @Autowired
-    UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-    public void register(String username, String password, String email) {
+    public Boolean register(String username, String password, String email) {
         if(Boolean.TRUE.equals(findUserByUsername(username))) {
             throw new IllegalStateException("Username already taken!");
         }
@@ -27,6 +24,7 @@ public class UserService {
         // TODO: hash password
         user.setPassword(password);
         userRepository.save(user);
+        return Boolean.TRUE;
     }
 
     public User findUserByUsernameAndPassword(String username, String password) {

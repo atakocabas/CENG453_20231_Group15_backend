@@ -25,8 +25,9 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void register(@RequestBody String username, @RequestBody String password, @RequestBody String email){
-        userService.register(username, password, email);
+    public ResponseEntity<Boolean> register(@RequestParam("username") String username,
+                             @RequestParam("password") String password, @RequestParam("email") String email){
+        return ResponseEntity.ok(userService.register(username, password, email));
     }
 
     @PutMapping("/resetPassword")
