@@ -1,5 +1,6 @@
 package com.catan.app.controller;
 
+import com.catan.app.entity.LeaderboardEntry;
 import com.catan.app.entity.User;
 import com.catan.app.service.LeaderboardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/leaderboard")
@@ -26,19 +28,19 @@ public class LeaderboardController {
 
     @GetMapping("/weekly")
     @ResponseStatus(value = HttpStatus.OK)
-    public void getWeeklyLeaderboard() {
-        // TODO: Get the weekly leaderboard.
+    public List<LeaderboardEntry> getWeeklyLeaderboard() {
+        return leaderboardService.findWeeklyScores();
     }
 
     @GetMapping("/monthly")
     @ResponseStatus(value = HttpStatus.OK)
-    public void getMonthlyLeaderboard() {
-        // TODO: Get the monthly leaderboard.
+    public List<LeaderboardEntry> getMonthlyLeaderboard() {
+        return leaderboardService.findMonthlyScores();
     }
 
     @GetMapping("/all-time")
     @ResponseStatus(value = HttpStatus.OK)
-    public void getAllTimeLeaderboard() {
-        // TODO: Get the all-time leaderboard.
+    public List<LeaderboardEntry> getAllTimeLeaderboard() {
+        return leaderboardService.findAlltimeScores();
     }
 }

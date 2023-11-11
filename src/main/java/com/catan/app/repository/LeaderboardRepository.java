@@ -5,7 +5,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Map;
+
 @Repository
 public interface LeaderboardRepository extends JpaRepository<Leaderboard, Long> {
-    // TODO: Write queries to get weekly, monthly, and all-time scores of all users.
+    @Query("SELECT l.userId, SUM(l.score) FROM Leaderboard l WHERE l.date > CURRENT_DATE - 7 GROUP BY l.userId")
+    Map<Long, Long> findWeeklyScores();
+    @Query("SELECT l.userId, SUM(l.score) FROM Leaderboard l WHERE l.date > CURRENT_DATE - 30 GROUP BY l.userId")
+    Map<Long, Long> findMonthlyScores();
+    @Query("SELECT l.userId, SUM(l.score) FROM Leaderboard l GROUP BY l.userId")
+    Map<Long, Long> findAllTimeScores();
+
 }
