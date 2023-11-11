@@ -3,6 +3,8 @@ package com.catan.app.controller;
 import com.catan.app.entity.User;
 import com.catan.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,7 +18,15 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public User login(@RequestParam String username, @RequestParam String password) {
-        return userService.findUserByUsernameAndPassword(username, password);
+    @ResponseStatus(value = HttpStatus.OK)
+    public ResponseEntity<HttpStatus> login(@RequestParam("username") String username, @RequestParam("password") String password) {
+        return userService.login(username, password);
     }
+
+    @PostMapping("/register")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void register(@RequestBody String username, @RequestBody String password, @RequestBody String email){
+        userService.register(username, password, email);
+    }
+
 }
