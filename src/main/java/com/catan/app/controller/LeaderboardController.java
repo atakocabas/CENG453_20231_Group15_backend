@@ -21,7 +21,13 @@ public class LeaderboardController {
 
     @PostMapping("/add")
     @ResponseStatus(value = HttpStatus.CREATED)
-        public void addLeaderboardEntry(@RequestParam("username") String username, @RequestParam("score") Long score, @RequestParam("date") Date date) {
+        public void addLeaderboardEntry(
+                @RequestParam("username") String username,
+                @RequestParam("score") Long score,
+                @RequestParam(value = "date", required = false) Date date){
+        if (date ==  null){
+            date = new Date();
+        }
         leaderboardService.addLeaderboardEntry(username, score, date);
     }
 
