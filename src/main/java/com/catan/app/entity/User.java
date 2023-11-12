@@ -14,8 +14,10 @@ public class User {
     private Long id;
     @Column(name = "USERNAME", unique = true)
     private String username;
-    @Column(name = "PASSWORD")
-    private String password;
+    @Column(name = "HASHED_PASSWORD")
+    private String hashedPassword;
     @Column(name = "EMAIL")
     private String email;
+    @Column(name = "SALT")
+    private String salt;
 }
