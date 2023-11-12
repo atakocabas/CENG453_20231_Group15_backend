@@ -15,8 +15,8 @@ Catan is an interactive multiplayer video game.
 
 ## Prerequisites
 
-  1. Install Catan app from website (later)
-  1. Internet connection for register, login, reset password and leaderboard update
+  1. Catan app installation (will be added later)
+  2. Internet connection for register, login, reset password and leaderboard update
 
 ## Installation
 
