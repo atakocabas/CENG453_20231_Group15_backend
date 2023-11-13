@@ -1,7 +1,7 @@
 package com.catan.app.service;
 
-import com.catan.app.entity.User;
-import com.catan.app.repository.UserRepository;
+import com.catan.app.entity.Player;
+import com.catan.app.repository.PlayerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,63 +15,63 @@ import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
-    private final UserRepository userRepository;
+public class PlayerService {
+    private final PlayerRepository playerRepository;
     private final MailService mailService;
 
     public Boolean register(String username, String password, String email) {
-        if(userRepository.findUserByUsername(username) != null) {
+        if(playerRepository.findUserByUsername(username) != null) {
             throw new IllegalStateException("Username already taken!");
         }
-        User user = new User();
-        user.setUsername(username);
-        user.setEmail(email);
+        Player player = new Player();
+        player.setPlayerName(username);
+        player.setEmail(email);
 
         // Generate a Salt
         byte[] salt = getSalt();
         String saltBase64 = Base64.getEncoder().encodeToString(salt);
         // Hash the password with salt
         String hashedPassword = hashPassword(password, salt);
-        user.setHashedPassword(hashedPassword);
-        user.setSalt(saltBase64);
+        player.setHashedPassword(hashedPassword);
+        player.setSalt(saltBase64);
 
-        userRepository.save(user);
+        playerRepository.save(player);
         return Boolean.TRUE;
     }
 
-    public User findUserByUsernameAndPassword(String username, String password) {
-        User user = userRepository.findUserByUsername(username);
-        if (user != null) {
-            String saltBase64 = user.getSalt();
+    public Player findUserByUsernameAndPassword(String username, String password) {
+        Player player = playerRepository.findUserByUsername(username);
+        if (player != null) {
+            String saltBase64 = player.getSalt();
             byte[] salt = Base64.getDecoder().decode(saltBase64);
             String hashedPassword = hashPassword(password, salt);
-            if (hashedPassword.equals(user.getHashedPassword())) {
-                return user;
+            if (hashedPassword.equals(player.getHashedPassword())) {
+                return player;
             }
         }
         return null;
     }
 
-    public User findUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
+    public Player findUserById(Long id) {
+        return playerRepository.findById(id).orElse(null);
     }
 
     public ResponseEntity<HttpStatus> login(String username, String password) {
-        User user = findUserByUsernameAndPassword(username, password);
-        if (user != null) {
+        Player player = findUserByUsernameAndPassword(username, password);
+        if (player != null) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    public User findUserByUsername(String username) {
-        return userRepository.findUserByUsername(username);
+    public Player findUserByUsername(String username) {
+        return playerRepository.findUserByUsername(username);
     }
 
     public Boolean resetPassword(String username) {
-        User user = userRepository.findUserByUsername(username);
-        if(user == null) {
+        Player player = playerRepository.findUserByUsername(username);
+        if(player == null) {
             throw new IllegalStateException("User does not exist!");
         }
 
@@ -82,9 +82,9 @@ public class UserService {
 
         String hashedNewPassword = hashPassword(newPassword, newSalt);
 
-        userRepository.updatePasswordAndSalt(username, hashedNewPassword, newSaltBase64);
+        playerRepository.updatePasswordAndSalt(username, hashedNewPassword, newSaltBase64);
 
-        mailService.sendMail(user, newPassword);
+        mailService.sendMail(player, newPassword);
 
         return true;
     }

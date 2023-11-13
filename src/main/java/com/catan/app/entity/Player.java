@@ -7,13 +7,13 @@ import lombok.*;
 @Setter
 @Entity
 @Table
-public class User {
+public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "USER_ID")
+    @Column(name = "PLAYER_ID")
     private Long id;
-    @Column(name = "USERNAME", unique = true)
-    private String username;
+    @Column(name = "PLAYER_NAME", unique = true)
+    private String playerName;
     @Column(name = "HASHED_PASSWORD")
     private String hashedPassword;
     @Column(name = "EMAIL")

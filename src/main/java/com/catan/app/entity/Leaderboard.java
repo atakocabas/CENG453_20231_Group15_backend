@@ -15,18 +15,18 @@ public class Leaderboard {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "LEADERBOARD_ID")
     private Long id;
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "USER_ID")
-    private User userId;
+    @ManyToOne(targetEntity = Player.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "PLAYER_ID")
+    private Player playerId;
     @Column(name = "DATE")
     private Date date;
     @Column(name = "SCORE")
     private Long score;
 
-    public void getUser(User user) {
-        this.userId = user;
+    public void getUser(Player player) {
+        this.playerId = player;
     }
-    public void setUser(User user) {
-        this.userId = user;
+    public void setUser(Player player) {
+        this.playerId = player;
     }
 }

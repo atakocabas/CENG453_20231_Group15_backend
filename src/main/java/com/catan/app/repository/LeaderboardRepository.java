@@ -9,11 +9,11 @@ import java.util.Map;
 
 @Repository
 public interface LeaderboardRepository extends JpaRepository<Leaderboard, Long> {
-    @Query("SELECT l.userId, SUM(l.score) FROM Leaderboard l WHERE l.date > CURRENT_DATE - 7 GROUP BY l.userId")
+    @Query("SELECT l.playerId, SUM(l.score) FROM Leaderboard l WHERE l.date > CURRENT_DATE - 7 GROUP BY l.playerId")
     Map<Long, Long> findWeeklyScores();
-    @Query("SELECT l.userId, SUM(l.score) FROM Leaderboard l WHERE l.date > CURRENT_DATE - 30 GROUP BY l.userId")
+    @Query("SELECT l.playerId, SUM(l.score) FROM Leaderboard l WHERE l.date > CURRENT_DATE - 30 GROUP BY l.playerId")
     Map<Long, Long> findMonthlyScores();
-    @Query("SELECT l.userId, SUM(l.score) FROM Leaderboard l GROUP BY l.userId")
+    @Query("SELECT l.playerId, SUM(l.score) FROM Leaderboard l GROUP BY l.playerId")
     Map<Long, Long> findAllTimeScores();
 
 }

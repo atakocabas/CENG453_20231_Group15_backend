@@ -1,6 +1,6 @@
 package com.catan.app.service;
 
-import com.catan.app.entity.User;
+import com.catan.app.entity.Player;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -15,8 +15,8 @@ public class MailService {
     private String host;
     @Value("${spring.mail.username}")
     private String fromEmail;
-    void sendMail(User user, String newPassword) {
-        String toEmail = user.getEmail();
+    void sendMail(Player player, String newPassword) {
+        String toEmail = player.getEmail();
 
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();

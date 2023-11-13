@@ -2,7 +2,7 @@ package com.catan.app.service;
 
 import com.catan.app.entity.Leaderboard;
 import com.catan.app.entity.LeaderboardEntry;
-import com.catan.app.entity.User;
+import com.catan.app.entity.Player;
 import com.catan.app.repository.LeaderboardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,12 +16,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class LeaderboardService {
     private final LeaderboardRepository leaderboardRepository;
-    private final UserService userService;
+    private final PlayerService playerService;
 
     public void addLeaderboardEntry(String username, Long score, Date date) {
         Leaderboard leaderboard = new Leaderboard();
-        User user = userService.findUserByUsername(username);
-        leaderboard.setUser(user);
+        Player player = playerService.findUserByUsername(username);
+        leaderboard.setUser(player);
         leaderboard.setScore(score);
         leaderboard.setDate(date);
         leaderboardRepository.save(leaderboard);
@@ -45,9 +45,9 @@ public class LeaderboardService {
     private List<LeaderboardEntry> generateLeaderboardEntries(Map<Long, Long> scores){
         List<LeaderboardEntry> leaderboardEntries = new ArrayList<>();
         for(Map.Entry<Long, Long> entry : scores.entrySet()) {
-            User user = userService.findUserById(entry.getKey());
+            Player player = playerService.findUserById(entry.getKey());
             LeaderboardEntry leaderboardEntry = new LeaderboardEntry();
-            leaderboardEntry.setUsername(user.getUsername());
+            leaderboardEntry.setUsername(player.getPlayerName());
             leaderboardEntry.setScore(entry.getValue());
             leaderboardEntries.add(leaderboardEntry);
         }
