@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -19,7 +19,7 @@ public class Leaderboard {
     @JoinColumn(name = "PLAYER_ID")
     private Player playerId;
     @Column(name = "DATE")
-    private Date date;
+    private LocalDateTime date;
     @Column(name = "SCORE")
     private Long score;
 
