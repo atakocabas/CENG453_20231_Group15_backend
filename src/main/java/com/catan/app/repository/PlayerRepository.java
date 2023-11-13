@@ -15,5 +15,5 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     @Modifying
     @Transactional
     @Query("UPDATE Player p SET p.hashedPassword = ?2, p.salt = ?3 WHERE p.playerName = ?1")
-    void updatePasswordAndSalt(String username, String hash, String salt);
+    void updatePasswordAndSalt(String playerName, String hash, String salt);
 }
