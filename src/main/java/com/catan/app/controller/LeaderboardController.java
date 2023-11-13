@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -24,10 +23,7 @@ public class LeaderboardController {
         public void addLeaderboardEntry(
                 @RequestParam("username") String username,
                 @RequestParam("score") Long score,
-                @RequestParam(value = "date", required = false) Date date){
-        if (date ==  null){
-            date = new Date();
-        }
+                @RequestParam(value = "date", required = false) String date) {
         leaderboardService.addLeaderboardEntry(username, score, date);
     }
 
