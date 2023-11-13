@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface PlayerRepository extends JpaRepository<Player, Long> {
     @Query("SELECT p FROM Player p WHERE p.playerName = ?1")
-    Player findUserByUsername(String username);
+    Player findUserByPlayerName(String username);
 
     @Modifying
     @Transactional

@@ -20,7 +20,7 @@ public class PlayerService {
     private final MailService mailService;
 
     public Boolean register(String username, String password, String email) {
-        if(playerRepository.findUserByUsername(username) != null) {
+        if(playerRepository.findUserByPlayerName(username) != null) {
             throw new IllegalStateException("Username already taken!");
         }
         Player player = new Player();
@@ -40,7 +40,7 @@ public class PlayerService {
     }
 
     public Player findUserByUsernameAndPassword(String username, String password) {
-        Player player = playerRepository.findUserByUsername(username);
+        Player player = playerRepository.findUserByPlayerName(username);
         if (player != null) {
             String saltBase64 = player.getSalt();
             byte[] salt = Base64.getDecoder().decode(saltBase64);
@@ -66,11 +66,11 @@ public class PlayerService {
     }
 
     public Player findUserByUsername(String username) {
-        return playerRepository.findUserByUsername(username);
+        return playerRepository.findUserByPlayerName(username);
     }
 
     public Boolean resetPassword(String username) {
-        Player player = playerRepository.findUserByUsername(username);
+        Player player = playerRepository.findUserByPlayerName(username);
         if(player == null) {
             throw new IllegalStateException("User does not exist!");
         }
