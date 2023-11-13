@@ -46,6 +46,6 @@ public class LeaderboardController {
     @GetMapping("/all-time")
     @ResponseStatus(value = HttpStatus.OK)
     public List<LeaderboardEntry> getAllTimeLeaderboard() {
-        return leaderboardService.findAlltimeScores();
+        return leaderboardService.findAllTimeScores();
     }
 }

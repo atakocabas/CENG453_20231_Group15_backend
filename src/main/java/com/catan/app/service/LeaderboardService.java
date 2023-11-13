@@ -7,10 +7,7 @@ import com.catan.app.repository.LeaderboardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -28,18 +25,15 @@ public class LeaderboardService {
     }
 
     public List<LeaderboardEntry> findWeeklyScores() {
-        Map<Long, Long> weeklyScores = leaderboardRepository.findWeeklyScores();
-        return generateLeaderboardEntries(weeklyScores);
+        return generateLeaderboardEntries(getWeeklyScores(leaderboardRepository.getDistinctPlayerIds()));
     }
 
     public List<LeaderboardEntry> findMonthlyScores() {
-        Map<Long, Long> monthlyScores = leaderboardRepository.findMonthlyScores();
-        return generateLeaderboardEntries(monthlyScores);
+        return generateLeaderboardEntries(getMonthlyScores(leaderboardRepository.getDistinctPlayerIds()));
     }
 
-    public List<LeaderboardEntry> findAlltimeScores() {
-        Map<Long, Long> alltimeScores = leaderboardRepository.findAllTimeScores();
-        return generateLeaderboardEntries(alltimeScores);
+    public List<LeaderboardEntry> findAllTimeScores() {
+        return generateLeaderboardEntries(getAllTimeScores(leaderboardRepository.getDistinctPlayerIds()));
     }
 
     private List<LeaderboardEntry> generateLeaderboardEntries(Map<Long, Long> scores){
@@ -54,4 +48,30 @@ public class LeaderboardService {
         return leaderboardEntries;
     }
 
+    private Map<Long, Long> getWeeklyScores(List<Long> playerIdList) {
+        Map<Long, Long> playerScores = new HashMap<>();
+        for (Long playerId : playerIdList) {
+            Long score = leaderboardRepository.findWeeklyScores(playerId);
+            playerScores.put(playerId, score);
+        }
+        return playerScores;
+    }
+
+    private Map<Long, Long> getMonthlyScores(List<Long> playerIdList) {
+        Map<Long, Long> playerScores = new HashMap<>();
+        for (Long playerId : playerIdList) {
+            Long score = leaderboardRepository.findMonthlyScores(playerId);
+            playerScores.put(playerId, score);
+        }
+        return playerScores;
+    }
+
+    private Map<Long, Long> getAllTimeScores(List<Long> playerIdList) {
+        Map<Long, Long> playerScores = new HashMap<>();
+        for (Long playerId : playerIdList) {
+            Long score = leaderboardRepository.findAllTimeScores(playerId);
+            playerScores.put(playerId, score);
+        }
+        return playerScores;
+    }
 }
