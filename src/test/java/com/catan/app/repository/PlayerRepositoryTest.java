@@ -4,6 +4,8 @@ import com.catan.app.entity.Player;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -13,6 +15,9 @@ class PlayerRepositoryTest {
 
     @Autowired
     private PlayerRepository playerRepository;
+
+    @Autowired
+    private TestEntityManager testEntityManager;
     @Test
     void testUserSave() {
         // Create a new user
@@ -40,6 +45,11 @@ class PlayerRepositoryTest {
 
         // Update the user's password and salt
         playerRepository.updatePasswordAndSalt("testUser", "newHash", "newSalt");
+
+        // Sometimes the persistence context has to manually synced with the database
+        // in order to see the updated values
+        testEntityManager.flush();
+        testEntityManager.clear();
 
         // Check that the user's password and salt have been updated
         Player updatedPlayer = playerRepository.findUserByPlayerName("testUser");
