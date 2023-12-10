@@ -27,8 +27,11 @@ public class LeaderboardService {
             }
         }
         Leaderboard leaderboard = new Leaderboard();
-        Player player = playerService.findUserByUsername(username);
-        leaderboard.setUser(player);
+        Optional<Player> player = playerService.findUserByUsername(username);
+        if(player.isEmpty()) {
+            throw new IllegalArgumentException("Invalid username");
+        }
+        leaderboard.setUser(player.get());
         leaderboard.setScore(score);
         leaderboard.setDate(requestedDate);
         leaderboardRepository.save(leaderboard);

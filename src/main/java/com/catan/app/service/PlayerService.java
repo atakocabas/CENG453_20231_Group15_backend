@@ -11,6 +11,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -20,7 +21,7 @@ public class PlayerService {
     private final MailService mailService;
 
     public Boolean register(String username, String password, String email) {
-        if(playerRepository.findUserByPlayerName(username) != null) {
+        if(playerRepository.findUserByPlayerName(username).isPresent()) {
             throw new IllegalStateException("Username already taken!");
         }
         Player player = new Player();
@@ -40,13 +41,13 @@ public class PlayerService {
     }
 
     public Player findUserByUsernameAndPassword(String username, String password) {
-        Player player = playerRepository.findUserByPlayerName(username);
-        if (player != null) {
-            String saltBase64 = player.getSalt();
+        Optional<Player> player = playerRepository.findUserByPlayerName(username);
+        if (player.isPresent()) {
+            String saltBase64 = player.get().getSalt();
             byte[] salt = Base64.getDecoder().decode(saltBase64);
             String hashedPassword = hashPassword(password, salt);
-            if (hashedPassword.equals(player.getHashedPassword())) {
-                return player;
+            if (hashedPassword.equals(player.get().getHashedPassword())) {
+                return player.get();
             }
         }
         return null;
@@ -65,13 +66,13 @@ public class PlayerService {
         }
     }
 
-    public Player findUserByUsername(String username) {
+    public Optional<Player> findUserByUsername(String username) {
         return playerRepository.findUserByPlayerName(username);
     }
 
     public Boolean resetPassword(String username) {
-        Player player = playerRepository.findUserByPlayerName(username);
-        if(player == null) {
+        Optional<Player> player = playerRepository.findUserByPlayerName(username);
+        if(player.isEmpty()) {
             throw new IllegalStateException("User does not exist!");
         }
 
@@ -84,7 +85,7 @@ public class PlayerService {
 
         playerRepository.updatePasswordAndSalt(username, hashedNewPassword, newSaltBase64);
 
-        mailService.sendMail(player, newPassword);
+        mailService.sendMail(player.get(), newPassword);
 
         return true;
     }
