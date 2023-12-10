@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -43,7 +44,7 @@ class LeaderboardServiceTest {
 
         Player player = new Player();
         player.setPlayerName(username);
-        when(playerService.findUserByUsername(username)).thenReturn(player);
+        when(playerService.findUserByUsername(username)).thenReturn(Optional.of(player));
 
         leaderboardService.addLeaderboardEntry(username, score, date);
 

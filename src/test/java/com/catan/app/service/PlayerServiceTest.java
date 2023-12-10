@@ -36,8 +36,7 @@ class PlayerServiceTest {
         String password = "testPassword";
         String email = "testEmail@test.com";
 
-        when(playerRepository.findUserByPlayerName(username)).thenReturn(null);
-
+        when(playerRepository.findUserByPlayerName(username)).thenReturn(Optional.empty());
         Boolean result = playerService.register(username, password, email);
 
         assertThat(result).isTrue();
@@ -59,7 +58,7 @@ class PlayerServiceTest {
         mockPlayer.setSalt(saltBase64);
         mockPlayer.setHashedPassword(hashedPassword);
 
-        when(playerRepository.findUserByPlayerName(username)).thenReturn(mockPlayer);
+        when(playerRepository.findUserByPlayerName(username)).thenReturn(Optional.of(mockPlayer));
 
         // Test the service method
         Player result = playerService.findUserByUsernameAndPassword(username, password);
@@ -104,12 +103,12 @@ class PlayerServiceTest {
         Player mockPlayer = new Player();
         mockPlayer.setPlayerName(username);
 
-        when(playerRepository.findUserByPlayerName(username)).thenReturn(mockPlayer);
+        when(playerRepository.findUserByPlayerName(username)).thenReturn(Optional.of(mockPlayer));
 
-        Player result = playerService.findUserByUsername(username);
+        Optional<Player> result = playerService.findUserByUsername(username);
 
         assertThat(result).isNotNull();
-        assertThat(result.getPlayerName()).isEqualTo(username);
+        assertThat(result.get().getPlayerName()).isEqualTo(username);
         verify(playerRepository).findUserByPlayerName(username);
 
         // Test for not found scenario

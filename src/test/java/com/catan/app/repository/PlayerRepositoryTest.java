@@ -7,6 +7,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 
+import java.util.Optional;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
@@ -52,9 +54,9 @@ class PlayerRepositoryTest {
         testEntityManager.clear();
 
         // Check that the user's password and salt have been updated
-        Player updatedPlayer = playerRepository.findUserByPlayerName("testUser");
+        Optional<Player> updatedPlayer = playerRepository.findUserByPlayerName("testUser");
         assertThat(updatedPlayer).isNotNull();
-        assertThat(updatedPlayer.getHashedPassword()).isEqualTo("newHash");
-        assertThat(updatedPlayer.getSalt()).isEqualTo("newSalt");
+        assertThat(updatedPlayer.get().getHashedPassword()).isEqualTo("newHash");
+        assertThat(updatedPlayer.get().getSalt()).isEqualTo("newSalt");
     }
 }
