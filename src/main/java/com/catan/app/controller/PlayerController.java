@@ -24,7 +24,7 @@ public class PlayerController {
 
     @PostMapping("/register")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity<Boolean> register(@RequestParam("username") String username,
+    public ResponseEntity<HttpStatus> register(@RequestParam("username") String username,
                              @RequestParam("password") String password, @RequestParam("email") String email){
         return ResponseEntity.ok(playerService.register(username, password, email));
     }

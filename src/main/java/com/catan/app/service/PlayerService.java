@@ -20,7 +20,7 @@ public class PlayerService {
     private final PlayerRepository playerRepository;
     private final MailService mailService;
 
-    public Boolean register(String username, String password, String email) {
+    public HttpStatus register(String username, String password, String email) {
         if(playerRepository.findUserByPlayerName(username).isPresent()) {
             throw new IllegalStateException("Username already taken!");
         }
@@ -37,7 +37,7 @@ public class PlayerService {
         player.setSalt(saltBase64);
 
         playerRepository.save(player);
-        return Boolean.TRUE;
+        return HttpStatus.CREATED;
     }
 
     public Player findUserByUsernameAndPassword(String username, String password) {
