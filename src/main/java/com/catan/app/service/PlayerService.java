@@ -70,7 +70,7 @@ public class PlayerService {
         return playerRepository.findUserByPlayerName(username);
     }
 
-    public Boolean resetPassword(String username) {
+    public HttpStatus resetPassword(String username) {
         Optional<Player> player = playerRepository.findUserByPlayerName(username);
         if(player.isEmpty()) {
             throw new IllegalStateException("User does not exist!");
@@ -87,7 +87,7 @@ public class PlayerService {
 
         mailService.sendMail(player.get(), newPassword);
 
-        return true;
+        return HttpStatus.OK;
     }
     private String generateRandomPassword(int length) {
         String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
