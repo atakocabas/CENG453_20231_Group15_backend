@@ -1,9 +1,15 @@
 package com.catan.app.controller;
 
+import com.catan.app.dto.LoginRequest;
+import com.catan.app.dto.RegisterRequest;
+import com.catan.app.dto.ResetPasswordRequest;
 import com.catan.app.service.PlayerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,23 +22,27 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     @ResponseStatus(value = HttpStatus.OK)
-    public ResponseEntity<HttpStatus> login(@RequestParam("username") String username, @RequestParam("password") String password) {
-        return playerService.login(username, password);
+    public ResponseEntity<String> login(@Validated @RequestBody LoginRequest request) {
+        return playerService.login(request.username, request.password);
     }
 
     @PostMapping("/register")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity<HttpStatus> register(@RequestParam("username") String username,
-                             @RequestParam("password") String password, @RequestParam("email") String email){
-        return ResponseEntity.ok(playerService.register(username, password, email));
+    public ResponseEntity<HttpStatus> register(@Validated @RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(playerService.register(request.username, request.password, request.email));
     }
 
     @PutMapping("/resetPassword")
     @ResponseStatus(value = HttpStatus.OK)
-    public ResponseEntity<HttpStatus> resetPassword(@RequestParam("username") String username){
-        return ResponseEntity.ok(playerService.resetPassword(username));
+    public ResponseEntity<HttpStatus> resetPassword(@Validated @RequestBody ResetPasswordRequest request) {
+        return ResponseEntity.ok(playerService.resetPassword(request.username));
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleValidationExceptions(MethodArgumentNotValidException ex) {
+        return "Bad Request";
+    }
 }
