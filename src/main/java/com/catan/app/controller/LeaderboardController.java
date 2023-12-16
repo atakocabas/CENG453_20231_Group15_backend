@@ -3,13 +3,11 @@ package com.catan.app.controller;
 import com.catan.app.dto.LeaderboardEntryRequest;
 import com.catan.app.entity.LeaderboardEntry;
 import com.catan.app.service.LeaderboardService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Enumeration;
 import java.util.List;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
