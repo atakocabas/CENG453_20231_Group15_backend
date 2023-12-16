@@ -37,9 +37,9 @@ class PlayerServiceTest {
         String email = "testEmail@test.com";
 
         when(playerRepository.findUserByPlayerName(username)).thenReturn(Optional.empty());
-        Boolean result = playerService.register(username, password, email);
+        HttpStatus result = playerService.register(username, password, email);
 
-        assertThat(result).isTrue();
+        assertThat(result).isEqualTo(HttpStatus.CREATED);
         verify(playerRepository, times(1)).save(any(Player.class));
     }
 
