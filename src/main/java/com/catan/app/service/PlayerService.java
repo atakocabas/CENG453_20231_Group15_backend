@@ -1,5 +1,6 @@
 package com.catan.app.service;
 
+import com.catan.app.config.JwtConfig;
 import com.catan.app.entity.Player;
 import com.catan.app.repository.PlayerRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,14 +12,21 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.Date;
 import java.util.Optional;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
 
 @Service
 @RequiredArgsConstructor
 public class PlayerService {
     private final PlayerRepository playerRepository;
     private final MailService mailService;
+    private final JwtConfig jwtConfig;
 
     public HttpStatus register(String username, String password, String email) {
         if(playerRepository.findUserByPlayerName(username).isPresent()) {
@@ -57,10 +65,19 @@ public class PlayerService {
         return playerRepository.findById(id).orElse(null);
     }
 
-    public ResponseEntity<HttpStatus> login(String username, String password) {
+    public ResponseEntity<String> login(String username, String password) {
         Player player = findUserByUsernameAndPassword(username, password);
+
         if (player != null) {
-            return new ResponseEntity<>(HttpStatus.OK);
+            Date now = new Date();
+            Date expiryDate = new Date(now.getTime() + TimeUnit.HOURS.toMillis(6)); // 6 hour expiration
+            String jwtToken = Jwts.builder()
+                    .setSubject(username)
+                    .setIssuedAt(new Date())
+                    .setExpiration(expiryDate)
+                    .signWith(SignatureAlgorithm.HS256, jwtConfig.getSecretKey())
+                    .compact();
+            return new ResponseEntity<>(jwtToken, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -116,6 +133,5 @@ public class PlayerService {
             throw new RuntimeException("Error during password hashing", e);
         }
     }
-
 
 }
