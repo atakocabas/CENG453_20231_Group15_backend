@@ -10,7 +10,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private final JwtConfig jwtConfig;
 
     public WebMvcConfig(JwtConfig jwtConfig) {
-        System.out.println("Initializing WebMvcConfig");
         this.jwtConfig = jwtConfig;
     }
 
@@ -22,7 +21,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        System.out.println("Adding interceptor");
         registry.addInterceptor(jwtInterceptor())
                 .addPathPatterns("/api/v1/**")
                 .excludePathPatterns("/api/v1/user/**")

@@ -9,7 +9,6 @@ public class JwtInterceptor implements HandlerInterceptor {
     private final JwtConfig jwtConfig;
 
     public JwtInterceptor(JwtConfig jwtConfig) {
-        System.out.println("Initializing JwtInterceptor");
         this.jwtConfig = jwtConfig;
     }
 
@@ -20,16 +19,13 @@ public class JwtInterceptor implements HandlerInterceptor {
             String jwtToken = authHeader.substring(7);
             try {
                 Jwts.parser().setSigningKey(jwtConfig.getSecretKey()).parseClaimsJws(jwtToken);
-                System.out.println("Valid token");
                 return true;
             } catch (io.jsonwebtoken.JwtException e) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
-                System.out.println("Invalid token");
                 return false;
             }
         } else {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
-            System.out.println("Unauthorized");
             return false;
         }
     }

@@ -12,9 +12,7 @@ public class JwtConfig {
 
     @PostConstruct
     public void init() {
-        System.out.println("Initializing JwtConfig");
         this.secretKey = generateSecretKey(32); // 32 bytes = 256 bits
-        System.out.println("Secret key: " + secretKey);
     }
 
     public String getSecretKey() {
@@ -22,7 +20,6 @@ public class JwtConfig {
     }
 
     private String generateSecretKey(int length) {
-        System.out.println("Generating secret key");
         SecureRandom random = new SecureRandom();
         byte[] key = new byte[length];
         random.nextBytes(key);
