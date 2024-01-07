@@ -7,6 +7,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+/**
+ * This class represents the mail service.
+ */
 @Service
 @RequiredArgsConstructor
 public class MailService {
@@ -15,6 +18,12 @@ public class MailService {
     private String host;
     @Value("${spring.mail.username}")
     private String fromEmail;
+
+    /**
+     * This method sends a mail to the player.
+     * @param player the player
+     * @param newPassword the new password
+     */
     void sendMail(Player player, String newPassword) {
         String toEmail = player.getEmail();
 

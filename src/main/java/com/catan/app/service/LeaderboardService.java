@@ -11,12 +11,21 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * This class represents the leaderboard service.
+ */
 @Service
 @RequiredArgsConstructor
 public class LeaderboardService {
     private final LeaderboardRepository leaderboardRepository;
     private final PlayerService playerService;
 
+    /**
+     * This method adds a leaderboard entry.
+     * @param username the username
+     * @param score the score
+     * @param date the date
+     */
     public void addLeaderboardEntry(String username, Long score, String date) {
         LocalDateTime requestedDate = LocalDateTime.now();
         if(StringUtils.isNotEmpty(date)) {
@@ -41,6 +50,7 @@ public class LeaderboardService {
         return generateLeaderboardEntries(getScoresWithGivenDate(leaderboardRepository.getDistinctPlayerIds(), LocalDateTime.now().minusDays(7)));
     }
 
+
     public List<LeaderboardEntry> findMonthlyScores() {
         return generateLeaderboardEntries(getScoresWithGivenDate(leaderboardRepository.getDistinctPlayerIds(), LocalDateTime.now().minusDays(30)));
     }
@@ -49,6 +59,11 @@ public class LeaderboardService {
         return generateLeaderboardEntries(getScoresWithGivenDate(leaderboardRepository.getDistinctPlayerIds(), LocalDateTime.now().minusYears(100)));
     }
 
+    /**
+     * This method generates leaderboard entries.
+     * @param scores the scores
+     * @return the leaderboard entries
+     */
     private List<LeaderboardEntry> generateLeaderboardEntries(Map<Long, Long> scores){
         List<LeaderboardEntry> leaderboardEntries = new ArrayList<>();
         for(Map.Entry<Long, Long> entry : scores.entrySet()) {
@@ -61,6 +76,12 @@ public class LeaderboardService {
         return leaderboardEntries;
     }
 
+    /**
+     * This method gets scores with given date.
+     * @param playerIds the player ids
+     * @param date the date
+     * @return the scores with given date
+     */
     private Map<Long, Long> getScoresWithGivenDate(List<Long> playerIds, LocalDateTime date) {
         Map<Long, Long> scores = new HashMap<>();
         for(Long playerId : playerIds) {

@@ -3,6 +3,9 @@ package com.catan.app.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+/**
+ * This class represents the player entity.
+ */
 @Getter
 @Setter
 @Entity

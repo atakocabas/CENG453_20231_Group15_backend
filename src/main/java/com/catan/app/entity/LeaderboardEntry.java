@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * This class represents the leaderboard entry entity.
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

@@ -6,6 +6,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+/**
+ * This class represents the leaderboard entity.
+ */
 @Getter
 @Setter
 @Entity

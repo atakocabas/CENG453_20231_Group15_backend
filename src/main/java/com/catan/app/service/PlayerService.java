@@ -21,6 +21,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 
+/**
+ * This class represents the player service.
+ */
 @Service
 @RequiredArgsConstructor
 public class PlayerService {
@@ -28,6 +31,13 @@ public class PlayerService {
     private final MailService mailService;
     private final JwtConfig jwtConfig;
 
+    /**
+     * This method registers a player.
+     * @param username the username
+     * @param password the password
+     * @param email the email
+     * @return the http status
+     */
     public HttpStatus register(String username, String password, String email) {
         if(playerRepository.findUserByPlayerName(username).isPresent()) {
             throw new IllegalStateException("Username already taken!");
@@ -48,6 +58,12 @@ public class PlayerService {
         return HttpStatus.CREATED;
     }
 
+    /**
+     * This method finds a player by username and password.
+     * @param username the username
+     * @param password the password
+     * @return the player
+     */
     public Player findUserByUsernameAndPassword(String username, String password) {
         Optional<Player> player = playerRepository.findUserByPlayerName(username);
         if (player.isPresent()) {
@@ -61,10 +77,21 @@ public class PlayerService {
         return null;
     }
 
+    /**
+     * This method finds a player by id.
+     * @param id the id
+     * @return the player
+     */
     public Player findUserById(Long id) {
         return playerRepository.findById(id).orElse(null);
     }
 
+    /**
+     * This method logs in a player.
+     * @param username the username
+     * @param password the password
+     * @return the response entity
+     */
     public ResponseEntity<String> login(String username, String password) {
         Player player = findUserByUsernameAndPassword(username, password);
 
@@ -83,10 +110,20 @@ public class PlayerService {
         }
     }
 
+    /**
+     * This method finds a player by username.
+     * @param username the username
+     * @return the player
+     */
     public Optional<Player> findUserByUsername(String username) {
         return playerRepository.findUserByPlayerName(username);
     }
 
+    /**
+     * This method resets a player's password.
+     * @param username the username
+     * @return the http status
+     */
     public HttpStatus resetPassword(String username) {
         Optional<Player> player = playerRepository.findUserByPlayerName(username);
         if(player.isEmpty()) {
@@ -106,6 +143,12 @@ public class PlayerService {
 
         return HttpStatus.OK;
     }
+
+    /**
+     * This method generates a random password.
+     * @param length the length
+     * @return the random password
+     */
     private String generateRandomPassword(int length) {
         String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         Random rnd = new Random();
@@ -116,6 +159,10 @@ public class PlayerService {
     }
 
 
+    /**
+     * This method creates a random salt.
+     * @return the salt
+     */
     private byte[] getSalt() {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
