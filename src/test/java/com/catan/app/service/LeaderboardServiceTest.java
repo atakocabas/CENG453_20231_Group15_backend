@@ -56,7 +56,6 @@ class LeaderboardServiceTest {
     void testFindWeeklyScores() {
         Long playerId = 1L;
         Long score = 100L;
-        LocalDateTime now = LocalDateTime.now();
 
         Player player = new Player();
         player.setId(playerId);
@@ -89,7 +88,6 @@ class LeaderboardServiceTest {
     void testFindMonthlyScores() {
         Long playerId = 1L;
         Long score = 100L;
-        LocalDateTime now = LocalDateTime.now();
 
         Player player = new Player();
         player.setId(playerId);
