@@ -15,19 +15,22 @@ Catan is an interactive multiplayer video game.
 
 ## Prerequisites
 
-  1. Catan app installation (will be added later)
+  1. Catan app installation
   2. Internet connection for register, login, reset password and leaderboard update
 
-## Installation
 
-  1. 
 
 ## Entities
 
   1. Leaderboard: Includes leaderboard id, player id, score and date of the score 
   2. LeaderboardEntry: Includes username and score
-  3. User: Includes id, username, password, email and salt data
-     
+  3. Player: Includes id, username, password, email and salt data
+
+## ER Diagram
+Below, you can find entity diagram of the project.
+
+![alt text](/docs/img/ERDDiagram.jpg)
+
 ## Endpoints
 
   1. "api/v1/player"
